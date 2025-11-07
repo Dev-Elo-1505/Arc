@@ -2,7 +2,7 @@
 
 const Landing = () => {
   return (
-    <div>Landing</div>
+    <div className="text-xl text-green-500 underline">Landing</div>
   )
 }
 
