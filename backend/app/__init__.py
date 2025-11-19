@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import os
 from .models import db
 from .blocklist import BLOCKLIST
+from flask_migrate import Migrate
 
 load_dotenv()
 
@@ -20,6 +21,8 @@ def create_app():
     
     jwt = JWTManager(app)
     db.init_app(app)
+    migrate = Migrate()
+    migrate.init_app(app, db)
     
     @jwt.token_in_blocklist_loader
     def check_if_token_revoked(jwt_header, jwt_payload):

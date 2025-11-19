@@ -85,7 +85,8 @@ const AuthForm = ({
 
           <AuthFormField label="Password" type="password" id="password" register={register} error={errors.password} />
 
-          <Button text={isSubmitting ? "Loading..." : buttonText} disabled={isSubmitting} />
+          <Button text={isSubmitting ? "Loading..." : buttonText}
+          type="submit" disabled={isSubmitting} />
           {mode === "login" && (
             <p className="text-xs text-gray mt-2 text-center">
               Don't have an account?{" "}
