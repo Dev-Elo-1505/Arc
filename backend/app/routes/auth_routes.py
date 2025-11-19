@@ -15,10 +15,11 @@ def register():
         if not data: 
             return jsonify({"error": "Invalid input"}), 400
         email = data.get('email', '').strip()
-        name = data.get('name', '').strip()
+        first_name = data.get('first_name', '').strip()
+        last_name = data.get('last_name', '').strip()
         password = data.get('password', '')
             
-        if not email or not name or not password:
+        if not email or not first_name or not last_name or not password:
             return jsonify({"error": "All fields are required"}), 400
             
         if not validate_email(email):
@@ -32,7 +33,7 @@ def register():
             return jsonify({"error": "Email already exists"}), 409
             
         password_hash = generate_password_hash(password)
-        new_user = User(email=email, name=name, password_hash=password_hash)
+        new_user = User(email=email, first_name=first_name, last_name = last_name, password_hash=password_hash)
             
         db.session.add(new_user) 
         db.session.commit() 
@@ -41,7 +42,8 @@ def register():
             'user': {
                 'id': new_user.id,
                 'email': new_user.email,
-                'name': new_user.name,
+                'first_name': new_user.first_name,
+                'last_name': new_user.last_name,
                 'created_at': new_user.created_at
             }
         }), 201
@@ -66,7 +68,7 @@ def login():
     return jsonify({
         'message': 'Login successful',
         'access_token': access_token,
-        'user': {'id': user.id, 'name': user.name, 'email': user.email}
+        'user': {'id': user.id, 'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email}
     }), 200
 
 
