@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../api/auth.api";
 import AuthForm from "../components/AuthForm";
 import type { LoginSchema } from "../schemas/authSchemas";
+import { LOGIN_ERRORS } from "../utils/errorMessages";
+import { toast } from 'sonner'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,10 +13,14 @@ const Login = () => {
       const data = await login(values);
       
       localStorage.setItem("token", data.access_token ?? data.token ?? "");
-      alert("Logged in successfully!");
+      toast.success("Logged in successfully!");
       navigate("/dashboard");
-    } catch (error) {
-      alert("Login failed. Please try again.");
+    } catch (error: any) {
+      if (error.response.data.error == "Invalid credentials") {
+        toast.error(LOGIN_ERRORS.INVALID_CREDENTIALS);
+      } else {
+        toast.error(LOGIN_ERRORS.DEFAULT);
+      }
       console.error("Login error:", error);
     }
   };

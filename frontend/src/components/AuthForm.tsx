@@ -11,6 +11,7 @@ import {
   type LoginSchema,
   type SignupSchema,
 } from "../schemas/authSchemas";
+import Spinner from "./Spinner";
 
 type Mode = "login" | "signup";
 
@@ -35,7 +36,7 @@ const AuthForm = <M extends Mode>({
 
   const {
     register,
-    handleSubmit,
+    handleSubmit, reset,
     formState: { errors, isSubmitting },
   } = useForm<FormDataFromMode<M>>({
     // resolver needs the correct schema at runtime — zodResolver accepts the active schema
@@ -45,6 +46,7 @@ const AuthForm = <M extends Mode>({
   const onFormSubmit: SubmitHandler<FormDataFromMode<M>> = async (data) => {
     try {
       await onSubmit(data);
+      reset();
     } catch (error) {
       console.error("Form submission error:", error);
     }
@@ -103,7 +105,7 @@ const AuthForm = <M extends Mode>({
             />
 
             <Button
-              text={isSubmitting ? "Loading..." : buttonText}
+              text={isSubmitting ? <Spinner /> : buttonText}
               type="submit"
               disabled={isSubmitting}
             />
