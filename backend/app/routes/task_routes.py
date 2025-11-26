@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy.exc import SQLAlchemyError
-from ..models import db, Task, TaskStatus
+from ..models import PriorityLevel, db, Task, TaskStatus
 
 task_bp = Blueprint("tasks", __name__)
 
@@ -30,32 +30,30 @@ def create_task():
         title = data.get('title', '')
         description = data.get('description', '')
         status = data.get('status', TaskStatus.PENDING.value)
+        due_date = data.get('due_date', None)
+        priority = data.get('priority', PriorityLevel.LOW.value)
             
         if not title:
             return jsonify({'error': 'Title is required'}), 400
             
         if status not in TaskStatus._value2member_map_:
             return jsonify({'error': 'Invalid status value'}), 400
+        if priority not in PriorityLevel._value2member_map_:
+            return jsonify({'error': 'Invalid priority value'}), 400
         new_task = Task(
             title=title,
             description=description,
             status=TaskStatus(status),
+            priority=PriorityLevel(priority),
+            due_date=due_date,
             user_id=current_user_id
             )
         db.session.add(new_task)
         db.session.commit()
         return jsonify({
             'message': 'Task created successfully',
-            'task': {
-                    'id': new_task.id,
-                    'title': new_task.title,
-                    'description': new_task.description,
-                    'status': new_task.status.value,
-                    'user_id': new_task.user_id,
-                    'created_at': new_task.created_at,
-                    'updated_at': new_task.updated_at
-                }
-            }), 201
+            'task': new_task.to_dict()
+        }), 201
     except SQLAlchemyError as e:
         db.session.rollback()
         return jsonify({'error': 'Failed to create task', 'details': str(e)}), 500

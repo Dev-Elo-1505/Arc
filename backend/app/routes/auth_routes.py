@@ -44,7 +44,7 @@ def register():
                 'email': new_user.email,
                 'first_name': new_user.first_name,
                 'last_name': new_user.last_name,
-                'created_at': new_user.created_at
+                'created_at': new_user.created_at.isoformat() if new_user.created_at else None
             }
         }), 201
     except SQLAlchemyError as e:

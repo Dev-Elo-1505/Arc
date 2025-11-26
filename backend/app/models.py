@@ -6,6 +6,11 @@ class TaskStatus(Enum):
         PENDING = 'pending'
         IN_PROGRESS = 'in_progress'
         COMPLETED = 'completed'
+
+class PriorityLevel(Enum):
+        LOW = 'low'
+        MEDIUM = 'medium'
+        HIGH = 'high'
     
 class User(db.Model):  
         id = db.Column(db.Integer, primary_key=True) 
@@ -20,6 +25,8 @@ class Task(db.Model):
         title = db.Column(db.String(100), nullable=False)
         description = db.Column(db.Text, nullable=True)
         status = db.Column(SqlEnum(TaskStatus), nullable=False, default=TaskStatus.PENDING)
+        due_date = db.Column(db.Date, nullable=True)
+        priority = db.Column(SqlEnum(PriorityLevel), nullable=False, default=PriorityLevel.LOW)
         user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
         created_at = db.Column(db.DateTime, server_default=db.func.now())
         updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
@@ -32,6 +39,8 @@ class Task(db.Model):
                 'description': self.description,
                 'status': self.status.value,
                 'user_id': self.user_id,
+                'due_date': self.due_date.isoformat() if self.due_date else None,
+                'priority': self.priority.value,
                 'created_at': self.created_at.isoformat() if self.created_at else None,
                 'updated_at': self.updated_at.isoformat() if self.updated_at else None
             }

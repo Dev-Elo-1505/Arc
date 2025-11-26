@@ -30,8 +30,8 @@ const loginSchema = z.object({
     password: z.string().min(1, "Password is required"),
 })
 
-type SignupData = z.infer<typeof signupSchema>;
-type LoginData = z.infer<typeof loginSchema>;
+type SignupSchema = z.infer<typeof signupSchema>;
+type LoginSchema = z.infer<typeof loginSchema>;
 
 export { signupSchema, loginSchema };
-export type { SignupData, LoginData };
+export type { SignupSchema, LoginSchema };
