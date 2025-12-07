@@ -6,6 +6,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import PrivateRoute from "./components/PrivateRoute";
 import { Toaster } from "sonner";
+import DashboardLayout from "./layouts/DashboardLayout";
+import Task from "./pages/Task";
 
 function App() {
   return (
@@ -16,7 +18,11 @@ function App() {
       <Route path="/auth/signup" element={<Signup />} />
       <Route path="/auth/login" element={<Login />} />
       <Route element={<PrivateRoute />}>
+      <Route element={<DashboardLayout />}>
+        
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/task" element={<Task />} />
+      </Route>
       </Route>
     </Routes>
     </>
