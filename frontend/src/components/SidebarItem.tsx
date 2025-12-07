@@ -15,20 +15,22 @@ const SidebarItem = ({
 }: SidebarItemProps) => {
   return (
     <div
-      className={`flex items-center gap-3 text-dark/80 text-sm mb-2 cursor-pointer hover:bg-primary-light rounded-full w-full px-4 py-2 transition-colors duration-200 ${
-        isActive ? "bg-primary-light font-medium" : ""
-      }`}
+      className={`flex items-center gap-3 text-sm mb-2 cursor-pointer rounded-full transition-all duration-200 ${
+        isActive
+          ? "bg-primary-light text-primary font-medium"
+          : "text-dark/80 hover:bg-primary-light"
+      } ${isOpen ? "justify-between px-4 py-2.5 rounded-full" : "justify-center w-10 h-10 rounded-full mx-auto"}`}
       onClick={onClick}
+      title={!isOpen ? title : undefined}
     >
       <span
-        className={`flex-1 overflow-hidden transition-all duration-300 whitespace-nowrap ${
-          isOpen ? "max-w-full opacity-100" : "max-w-0 opacity-0"
+        className={`whitespace-nowrap transition-all duration-300 ${
+          isOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden absolute"
         }`}
       >
         {title}
       </span>
-
-      {icon}
+      <span className="shrink-0">{icon}</span>
     </div>
   );
 };
