@@ -19,4 +19,5 @@ export const login = async (payload: LoginSchema) => {
 
 export const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
 }

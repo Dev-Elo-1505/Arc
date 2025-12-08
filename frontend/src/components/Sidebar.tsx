@@ -14,16 +14,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import avatar from "../assets/avatar.png";
 import Modal from "./Modal";
+import { useUser } from "../context/UserProvider";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user, setUser } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = () => {
     try {
       logout();
+      setUser(null);
     } finally {
       localStorage.removeItem("token");
       toast.success("Logged out successfully!");
@@ -71,20 +74,24 @@ const Sidebar = () => {
           !isOpen ? "rotate-180" : ""
         }`}
       >
-        <ChevronsLeft size={18} strokeWidth={2} className="text-dark" />
+        <ChevronsLeft size={18} strokeWidth={1.5} className="text-dark" />
       </button>
 
       <div className="flex items-center px-2 mb-8">
-        
-          <img
-            src={avatar}
-            alt="Avatar"
-            className="w-10 h-10 rounded-full object-cover  shrink-0"
-          />
-          <p className={`font-medium text-dark/80 transition-all duration-300 ${isOpen ? "opacity-100 ml-3 mr-auto" : "opacity-0 w-0 overflow-hidden absolute"}`}>Sam Smith</p>
-      
-
-      
+        <img
+          src={avatar}
+          alt="Avatar"
+          className="w-10 h-10 rounded-full object-cover  shrink-0"
+        />
+        <p
+          className={`font-medium text-dark/80 transition-all duration-300 ${
+            isOpen
+              ? "opacity-100 ml-3 mr-auto"
+              : "opacity-0 w-0 overflow-hidden absolute"
+          }`}
+        >
+          {user ? `${user.first_name} ${user.last_name}` : "Guest"}
+        </p>
       </div>
       <nav className="flex-1 space-y-1">
         {menuItems.map((item) => (
@@ -100,14 +107,20 @@ const Sidebar = () => {
       </nav>
       <button
         className={`flex items-center text-dark/80 cursor-pointer hover:bg-red-50 hover:text-red-600 transition-all duration-200 ${
-          isOpen ? "justify-between px-4 py-2.5 rounded-full" : "justify-center w-10 h-10 rounded-full mx-auto"
+          isOpen
+            ? "justify-between px-4 py-2.5 rounded-full"
+            : "justify-center w-10 h-10 rounded-full mx-auto"
         }`}
         onClick={() => setIsModalOpen(true)}
         title={!isOpen ? "Logout" : undefined}
       >
-        <span className={`whitespace-nowrap transition-all duration-300 ${
-          isOpen ? "opacity-100 w-auto" : "opacity-0 w-0 overflow-hidden absolute"
-        }`}>
+        <span
+          className={`whitespace-nowrap transition-all duration-300 ${
+            isOpen
+              ? "opacity-100 w-auto"
+              : "opacity-0 w-0 overflow-hidden absolute"
+          }`}
+        >
           Logout
         </span>
         <LogOut size={20} strokeWidth={1.5} className="shrink-0" />

@@ -4,15 +4,18 @@ import AuthForm from "../components/AuthForm";
 import type { LoginSchema } from "../schemas/authSchemas";
 import { LOGIN_ERRORS } from "../utils/errorMessages";
 import { toast } from 'sonner'
+import { useUser } from "../context/UserProvider";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleLogin = async (values: LoginSchema) => {
     try {
       const data = await login(values);
       
       localStorage.setItem("token", data.access_token ?? data.token ?? "");
+      setUser(data.user);
       toast.success("Logged in successfully!");
       navigate("/dashboard");
     } catch (error: any) {
