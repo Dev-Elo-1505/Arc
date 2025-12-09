@@ -4,6 +4,7 @@ import {
   ChevronsLeft,
   FolderOpenDot,
   House,
+  Layers,
   LogOut,
   Settings,
 } from "lucide-react";
@@ -12,14 +13,14 @@ import SidebarItem from "./SidebarItem";
 import { logout } from "../api/auth.api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import avatar from "../assets/avatar.png";
+
 import Modal from "./Modal";
 import { useUser } from "../context/UserProvider";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -78,19 +79,15 @@ const Sidebar = () => {
       </button>
 
       <div className="flex items-center px-2 mb-8">
-        <img
-          src={avatar}
-          alt="Avatar"
-          className="w-10 h-10 rounded-full object-cover  shrink-0"
-        />
+        <Layers className="text-primary font-medium" />
         <p
-          className={`font-medium text-dark/80 transition-all duration-300 ${
+          className={`font-medium text-dark text-lg transition-all duration-300 ${
             isOpen
               ? "opacity-100 ml-3 mr-auto"
               : "opacity-0 w-0 overflow-hidden absolute"
           }`}
         >
-          {user ? `${user.first_name} ${user.last_name}` : "Guest"}
+          Arc.io
         </p>
       </div>
       <nav className="flex-1 space-y-1">

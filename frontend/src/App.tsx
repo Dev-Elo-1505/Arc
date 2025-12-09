@@ -8,6 +8,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { Toaster } from "sonner";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Task from "./pages/Task";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/tasks" element={<Task />} />
+            <Route path="/settings" element={<Settings />} />
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" />} />
