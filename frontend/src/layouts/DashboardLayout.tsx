@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom"
 import Sidebar from "../components/Sidebar"
+import DashboardHeader from "../components/DashboardHeader"
 
 
 const DashboardLayout = () => {
@@ -8,6 +9,7 @@ const DashboardLayout = () => {
       <Sidebar />
 
       <main className="flex-1 overflow-auto bg-light text-dark font-inter">
+        <DashboardHeader />
         <Outlet />
       </main>
     </div>

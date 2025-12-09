@@ -4,7 +4,7 @@ import avatar from "../assets/avatar.png";
 const DashboardHeader = () => {
   const { user } = useUser();
   return (
-    <header className="p-4">
+    <header className="pt-4 px-10 flex justify-end">
   <div className="flex items-center justify-center border gap-2 border-gray-300 rounded-md px-2 py-1 ml-auto">
     <img
       src={avatar}

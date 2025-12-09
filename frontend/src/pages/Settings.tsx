@@ -54,7 +54,7 @@ const Settings = () => {
   };
 
   return (
-    <main className="min-h-screen container mx-auto py-6 px-10 text-dark font-inter">
+    <main className="min-h-screen container mx-auto pt-1 pb-6 px-10 text-dark font-inter">
       <h1 className="text-2xl font-semibold">Settings</h1>
       <p className="mb-8 text-gray-500 text-sm">
         Manage your account settings and preferences.
