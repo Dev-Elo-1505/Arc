@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import authImg from "../assets/auth.svg";
-import AuthFormField from "./AuthFormField";
+
 import { MoveLeft } from "lucide-react";
 import Button from "./Button";
 import { useForm, type SubmitHandler, type FieldError, type FieldErrors } from "react-hook-form";
@@ -12,6 +12,8 @@ import {
   type SignupSchema,
 } from "../schemas/authSchemas";
 import Spinner from "./Spinner";
+import FormField from "./FormField";
+import { toast } from "sonner";
 
 type Mode = "login" | "signup";
 
@@ -48,6 +50,7 @@ const AuthForm = <M extends Mode>({
       await onSubmit(data);
       reset();
     } catch (error) {
+      toast.error("Form submission failed. Please try again.");
       console.error("Form submission error:", error);
     }
   };
@@ -68,40 +71,44 @@ const AuthForm = <M extends Mode>({
             {isSignup && (
               <div className="md:flex gap-4">
                 <div className="flex-1">
-                  <AuthFormField
+                  <FormField
                     label="First Name"
                     type="text"
                     id="firstName"
                     register={register}
                     error={(errors as FieldErrors<SignupSchema>).firstName as unknown as FieldError}
+                    required
                   />
                 </div>
                 <div className="flex-1">
-                  <AuthFormField
+                  <FormField
                     label="Last Name"
                     type="text"
                     id="lastName"
                     register={register}
                     error={(errors as FieldErrors<SignupSchema>).lastName as unknown as FieldError}
+                    required
                   />
                 </div>
               </div>
             )}
 
-            <AuthFormField
+            <FormField
               label="Email Address"
               type="email"
               id="email"
               register={register}
               error={errors.email as unknown as FieldError}
+              required
             />
 
-            <AuthFormField
+            <FormField
               label="Password"
               type="password"
               id="password"
               register={register}
               error={errors.password as unknown as FieldError}
+              required
             />
 
             <Button

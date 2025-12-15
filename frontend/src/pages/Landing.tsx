@@ -1,9 +1,12 @@
+import Hero from "../components/Hero";
 
 
 const Landing = () => {
   return (
-    <div className="text-xl text-green-500 underline">Landing</div>
-  )
-}
+    <section className="font-inter">
+      <Hero />
+    </section>
+  );
+};
 
-export default Landing
+export default Landing;

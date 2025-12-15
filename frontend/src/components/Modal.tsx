@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { X } from "lucide-react";
+import { cn } from "../utils/cn";
+import Button from "./Button";
+import Spinner from "./Spinner";
 
 interface ModalProps {
   title?: string;
@@ -13,6 +16,7 @@ interface ModalProps {
   cancelText?: string;
   confirmClassName?: string;
   cancelClassName?: string;
+  confirmLoading?: boolean;
 }
 
 const Modal = ({
@@ -26,6 +30,7 @@ const Modal = ({
   cancelText = "Cancel",
   confirmClassName = "",
   cancelClassName = "",
+  confirmLoading = false,
 }: ModalProps) => {
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -77,21 +82,30 @@ const Modal = ({
         <div className="text-gray-700">{children}</div>
         {showActions && (
           <div className="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-gray-200">
-            <button
-              onClick={onClose}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 hover:bg-gray-100 text-gray-700 cursor-pointer ${cancelClassName}`}
-            >
-              {cancelText}
-            </button>
-            <button
-              onClick={() => {
-                onConfirm?.();
-                onClose();
-              }}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 bg-red-500 hover:bg-red-600 text-white cursor-pointer ${confirmClassName}`}
-            >
-              {confirmText}
-            </button>
+            <div className="w-36">
+              <Button
+                onClick={onClose}
+                text={cancelText}
+                disabled={confirmLoading}
+                customClass={cn(
+                  "!w-full px-4 py-2",
+                  cancelClassName || "bg-gray-100 text-gray-700"
+                )}
+              />
+            </div>
+            <div className="w-36">
+              <Button
+                onClick={() => {
+                  onConfirm?.();
+                }}
+                text={confirmLoading ? <Spinner /> : confirmText}
+                disabled={confirmLoading}
+                customClass={cn(
+                  "!w-full px-4 py-2",
+                  confirmClassName || "bg-red-500 hover:bg-red-600 text-white"
+                )}
+              />
+            </div>
           </div>
         )}
       </div>
